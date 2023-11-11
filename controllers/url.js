@@ -1,4 +1,5 @@
 const { nanoid } = require('nanoid');
+
 const URL = require('../models/url')
 
 async function handleGenerateShortURL(req, res) {

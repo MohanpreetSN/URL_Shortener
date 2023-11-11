@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const { createClient, redis } = require('redis');
+const { createClient } = require('redis');
 
 const URL = require('../models/url')
 
@@ -41,6 +41,8 @@ async function handleRedirectShortUrl(req, res) {
             }
         }
     );
+
+    await client.set(shortId, entry.redirectURL);
     res.redirect(entry.redirectURL);
 }
 
