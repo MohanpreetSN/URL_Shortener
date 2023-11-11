@@ -8,7 +8,12 @@ const { connect } = require('mongoose');
 const URL = require('./models/url')
 
 const app = express();
-const PORT = 8001;
+const PORT = 1212;
+
+// NOTE: This part of the code is to make nginx work, however, it needs to be setup in the environment.
+// const PORT = process.env.PORT;
+//Define the PORT variables 1212,1313,1414 for different consoles.
+
 
 connectToMongoDB('mongodb://127.0.0.1:27017/short-url')
     .then(() => console.log("mongodb connected")
@@ -24,21 +29,6 @@ app.use(express.json())
 
 app.use('/url', urlRoute);
 app.use('/', homeRoute)
-
-// app.get('/:shortId', async (req, res) => {
-//     const shortId = req.params.shortId;
-//     const entry = await URL.findOneAndUpdate(
-//         { shortId },
-//         {
-//             $push: {
-//                 visitHistory: {
-//                     timestamp: Date.now()
-//                 },
-//             }
-//         }
-//     );
-//     res.redirect(entry.redirectURL);
-// })
 
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
