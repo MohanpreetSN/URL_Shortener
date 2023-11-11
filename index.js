@@ -1,4 +1,5 @@
 const express = require('express');
+// const { createClient } = require('redis');
 
 const urlRoute = require('./routes/url')
 const homeRoute = require('./routes/home')
@@ -13,25 +14,31 @@ connectToMongoDB('mongodb://127.0.0.1:27017/short-url')
     .then(() => console.log("mongodb connected")
     );
 
+
+// const client = createClient();
+// client.on('error', err => console.log('Redis Client Error', err));
+// client.connect();
+
+
 app.use(express.json())
 
 app.use('/url', urlRoute);
 app.use('/', homeRoute)
 
-app.get('/:shortId', async (req, res) => {
-    const shortId = req.params.shortId;
-    const entry = await URL.findOneAndUpdate(
-        { shortId },
-        {
-            $push: {
-                visitHistory: {
-                    timestamp: Date.now()
-                },
-            }
-        }
-    );
-    res.redirect(entry.redirectURL);
-})
+// app.get('/:shortId', async (req, res) => {
+//     const shortId = req.params.shortId;
+//     const entry = await URL.findOneAndUpdate(
+//         { shortId },
+//         {
+//             $push: {
+//                 visitHistory: {
+//                     timestamp: Date.now()
+//                 },
+//             }
+//         }
+//     );
+//     res.redirect(entry.redirectURL);
+// })
 
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

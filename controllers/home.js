@@ -1,10 +1,10 @@
 const crypto = require('crypto');
-const { createClient } = require('redis');
+// const { createClient } = require('redis');
 
 const URL = require('../models/url')
 
-const client = createClient();
-client.on('error', err => console.log('Redis Client Error', err));
+// const client = createClient();
+// client.on('error', err => console.log('Redis Client Error', err));
 
 //NOTE: The official docs show the usage of this function to create keys for storing data in Redis
 // This is useful for complex search criteria composed of multiple individual criterion
@@ -17,10 +17,10 @@ function getHashKey(searchCriteria) {
         .digest('hex');
 }
 
-async function handleRedirectShortUrl(req, res) {
+async function handleRedirectShortUrl(req, res, client) {
     const shortId = req.params.shortId;
 
-    await client.connect();
+    // await client.connect();
     const cachedValue = await client.get(shortId)
 
     if (!!cachedValue) {
